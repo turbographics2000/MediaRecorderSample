@@ -19,6 +19,7 @@ function rec(recType) {
     recorder = new MediaRecorder(stream, {mimeType: `video/webm; codecs=${codecType}`});
     document.querySelectorAll('recbtn').forEach(btn => btn.disabled = true);
     recStop.disabled = false;
+    dl.disabled = true;
     recorder.ondataavailable = handleDataAvailable;
 }
 
@@ -37,6 +38,7 @@ recStop.onclick = function() {
     recorder.stop();
     recorder = null;
     recStop.disabled = true;
+    if(recordChunks && recordChunks.length) dl.disabled = false;
 }
 
 function download() {
