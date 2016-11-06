@@ -58,14 +58,14 @@ recStop.onclick = function() {
     if(recordChunks && recordChunks.length) dl.disabled = false;
 }
 
-function download() {
+dl.onclick = function () {
   var blob = new Blob(recordChunks, {type: 'video/webm'});
   var url = URL.createObjectURL(blob);
     
   var a = document.createElement('a');
-  a.style.display = 'none';
+  //a.style.display = 'none';
   a.href = url;
   a.download = codecType + '.webm';
-  document.body.appendChild(a);
+  //document.body.appendChild(a);
   a.click();
 }
