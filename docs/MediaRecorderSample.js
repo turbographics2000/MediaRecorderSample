@@ -2,11 +2,12 @@ var stream = null;
 var recordChunks = null;
 var recorder = null;
 var codecType = null;
+var recBtns = document.querySelectorAll('.recbtn');
 
 navigator.mediaDevices.getUserMedia({video: true, audio:false}).then(gumStream => {
     stream = gumStream;
     gumPreview.srcObject = stream;
-    document.querySelectorAll('recbtn').forEach(btn => btn.disabled = false);
+    recBtns.forEach(btn => btn.disabled = false);
 });
 
 
@@ -37,7 +38,7 @@ recH264.onclick = function() {
 }
 
 recStop.onclick = function() {
-    document.querySelectorAll('recbtn').forEach(btn => btn.disabled = false);
+    recBtns.forEach(btn => btn.disabled = false);
     recorder.stop();
     recorder = null;
     recStop.disabled = true;
