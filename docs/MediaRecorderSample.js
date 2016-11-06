@@ -19,12 +19,13 @@ function rec(recType) {
     codecType = recType;
     recordChunks = [];
     recorder = new MediaRecorder(stream, {mimeType: `video/webm; codecs=${recType}`});
-    document.querySelectorAll('recbtn').forEach(btn => btn.disabled = true);
+    recBtns.forEach(btn => btn.disabled = true);
     recStop.disabled = false;
     dl.disabled = true;
     msg.textContent = recType + 'で録画中';
     msg.style.display = '';
     recorder.ondataavailable = handleDataAvailable;
+    recorder.start();
 }
 
 recVP8.onclick = function() {
