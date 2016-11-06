@@ -16,10 +16,12 @@ function handleDataAvailable(event) {
 function rec(recType) {
     codecType = recType;
     recordChunks = [];
-    recorder = new MediaRecorder(stream, {mimeType: `video/webm; codecs=${codecType}`});
+    recorder = new MediaRecorder(stream, {mimeType: `video/webm; codecs=${recType}`});
     document.querySelectorAll('recbtn').forEach(btn => btn.disabled = true);
     recStop.disabled = false;
     dl.disabled = true;
+    msg.textContent = recType + 'で録画中';
+    msg.style.display = '';
     recorder.ondataavailable = handleDataAvailable;
 }
 
@@ -38,6 +40,7 @@ recStop.onclick = function() {
     recorder.stop();
     recorder = null;
     recStop.disabled = true;
+    msg.style.display = 'none';
     if(recordChunks && recordChunks.length) dl.disabled = false;
 }
 
