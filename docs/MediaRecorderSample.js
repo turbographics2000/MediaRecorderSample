@@ -5,6 +5,7 @@ var codecType = null;
 
 navigator.mediaDevices.getUserMedia({video: true, audio:false}).then(gumStream => {
     stream = gumStream;
+    gumPreview.srcObject = stream;
     document.querySelectorAll('recbtn').forEach(btn => btn.disabled = false);
 });
 
@@ -41,12 +42,24 @@ recStop.onclick = function() {
     recorder = null;
     recStop.disabled = true;
     msg.style.display = 'none';
+    var blob = new Blob(recordChunks, {type: 'video/webm'});
+    var url = null;
+    if(recPreview.src) {
+        url = recPreview.src;
+        recPreview.stop();
+        recPreview.src = null;
+        URL.revokeURL(url);
+        url = null;
+    }
+    var url = URL.createObjectURL(blob);
+    recPreview.src = url;
     if(recordChunks && recordChunks.length) dl.disabled = false;
 }
 
 function download() {
   var blob = new Blob(recordChunks, {type: 'video/webm'});
   var url = URL.createObjectURL(blob);
+    
   var a = document.createElement('a');
   //a.style.display = 'none';
   a.href = url;
