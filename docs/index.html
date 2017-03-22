@@ -3,16 +3,173 @@
     <head>
         <title>MediaRecorder Sample</title>
         <meta charset="utf-8">
+        <style>
+            html, body {
+                width: 100%;
+                height: 100%;
+                margin: 0;
+                text-align: center;
+            }
+            body {
+                display: flex;
+                flex-direction: row;
+            }
+            body > div {
+                padding: 20px;
+            }
+            #sideLeft {
+                width: 320px;
+                background-color: #294F6D;
+                box-shadow: 0 4px 4px #042037;
+            }
+            #sideRight {
+                flex: 1;
+            }
+            #container > div {
+                margin: 20px;
+            }
+            video {
+                width: 320px;
+                height: 240px;
+                margin: auto;
+                background: lightgray;
+            }
+            table {
+                border-collapse: collapse;
+                display: inline-block;
+            }
+            tr td:nth-child(1) {
+                background: #AA8E39;
+                color: white;
+                font-size:larger;
+                font-weight: bold;
+            }
+            td {
+                border: 1px solid #ccc;
+                padding: 10px;
+            }
+            .audioMeterContainer {
+                width: 320px;
+                height: 10px;
+                display: inline-block;
+                border: 1px solid;
+                position: relative;
+                margin: auto;
+                box-sizing: border-box;
+            }
+            .audioMeter {
+                position: absolute;
+                left: 0;
+                bottom: 0;
+                height: 100%;
+                background-color: #5792cc;
+            }
+
+            @keyframes recordingAnimate {
+                0% {opacity: 1}
+                100% {opacity: 0}
+            }
+            #recording {
+                width: 30px;
+                height: 30px;
+                border-radius: 100%;
+                background-color: red;
+                position:absolute;
+                left: 35px;
+                top: 35px;
+            }
+            #recording.animate {
+                animation: recordingAnimate 1s infinite alternate;
+            }
+
+            #msg {
+                background-color: #3377FF;
+                width: 300px;
+                display: inline-block;
+                padding: 10px;
+                color: white;
+                font-weight: bold;
+            }
+            
+            button {
+                padding: 10px;
+                background: #294F6D;
+                border-radius: 3px;
+                border-width: 0;
+                cursor: pointer;
+                color: white;
+                font-size:larger;
+                font-weight: bold;
+                box-shadow: 0px 4px 4px #042037;
+                margin: 4px;
+                outline-width: 0;
+            }
+
+            button:active {
+                box-shadow: none;
+            }
+
+            button:disabled {
+                color: #496D89;
+                box-shadow: none;
+            }
+            
+            button.notsupported {
+                cursor: initial;
+                pointer-events: none;
+                opacity: .5;
+                font-size: 14px;
+                display: none;
+            }
+            
+            #recordFileInfo tr td:nth-child(2){
+                font-size:larger;
+            }
+        </style>
+        <script src="matroskaElementDictionary.js"></script>
+        <script src="mkv_parser.js"></script>
     </head>
     <body>
-        <video id="gumPreview" autoplay></video>
-        <video id="recPreview" controls></video>
-        <button id="recVP8" class="recbtn" disabled>VP8で録画開始</button>
-        <button id="recVP9" class="recbtn" disabled>VP9で録画開始</button>
-        <button id="recH264" class="recbtn" disabled>H264で録画開始</button>
-        <button id="recStop" disabled>録画停止</button>
-        <button id="dl" disabled>録画ファイルダウンロード</button>
-        <span id="msg" style="display:none"></span>
-    <script src="MediaRecorderSample.js"></script>
+        <div id="sideLeft">
+            <div>
+                <video id="gumPreview" autoplay></video>
+                <div id="recording"></div>
+                <div class="audioMeterContainer"><div id="audioMeter0" class="audioMeter"></div></div>
+                <div class="audioMeterContainer"><div id="audioMeter1" class="audioMeter"></div></div>
+            </div>
+            <video id="recPreview" controls></video>
+        </div>
+        <div id="sideRight">
+            <div>
+                <table>
+                    <thead>
+                        <tr>
+                            <th colspan="2">レコード開始ボタン</th>
+                        <tr>
+                    </thead>
+                    <tbody id="recButtonsTable">
+                    </tbody>
+                </table>
+            </div>
+            <div>
+                <span id="msg">レコード停止中</span>
+            </div>
+            <div>
+                <button id="recStop" disabled>レコード停止</button>
+            </div>
+            <div>
+                <table id="recordFileInfo" style="display: none">
+                    <thead>
+                        <tr>
+                            <th colspan="2">レコードファイル情報</th>
+                        </tr>
+                    </thead>
+                    <tbody id="recordFileInfoBody">
+                    </tbody>
+                </table>
+            </div>
+            <button id="dl" disabled style="display: none">レコードファイルダウンロード</button>
+        </div>
+        <script src="MediaRecorderSample.js"></script>
     </body>
 </html>
